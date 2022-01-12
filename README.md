@@ -1,5 +1,7 @@
 # Maze solver
 
+![](graphics/maze.gif)
+
 In this program, a robot explores a maze to arrive at destination. 
 
 The maze generation code is located in the package `lib.maze`.
@@ -20,7 +22,7 @@ This code also contains two main classes inheriting from `pygame.sprite.Sprite`,
   * `move_up`
   * `move_down`
 
-![](graphics/directions.png)
+<img src="graphics/directions.png" alt="drawing" width="10"/>
 
 * The class `Target`: It is the class responsible for the target's appearance and position. In this exercise, the target doesn't move, it will appear always on the same exact position of the maze.
 
@@ -44,9 +46,7 @@ An example of a randomly generated maze is as follows:
 
 ![](graphics/maze.png)
 
-In this case, the `Player` should move in a more intelligent way to reach the target. The end goal is to achieve the scenario in the following animation:
-
-![](graphics/maze.gif)
+In this case, the `Player` should move in a more intelligent way to reach the target. The end goal is to achieve the scenario in the animation shown above.
 
 As it moves, the robot will always check for available moves using the function `get_available_moves()`. You can mark the already visited cells in the matrix as "-1", instead of "0" (empty cell) or "1" (Wall). This way, you can keep track of the cells you already visited.
 You can also use an array or list to store the visited positions.
