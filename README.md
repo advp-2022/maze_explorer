@@ -15,6 +15,10 @@ Then you can run the code using:
 python run.py
 ```
 
+## Customizing the default parameters
+
+The program's default parameters are initialized in the file `var.ini`. You can change the colors, the screen size and the maze block size.
+
 ## The program structure
 In this program, a robot explores a maze to arrive at destination. 
 
