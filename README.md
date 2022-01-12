@@ -46,7 +46,7 @@ An example of a randomly generated maze is as follows:
 
 In this case, the `Player` should move in a more intelligent way to reach the target. The end goal is to achieve the scenario in the following animation:
 
-![](animations/maze.gif)
+![](graphics/maze.gif)
 
 As it moves, the robot will always check for available moves using the function `get_available_moves()`. You can mark the already visited cells in the matrix as "-1", instead of "0" (empty cell) or "1" (Wall). This way, you can keep track of the cells you already visited.
 You can also use an array or list to store the visited positions.
