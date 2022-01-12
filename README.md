@@ -2,6 +2,20 @@
 
 ![](graphics/maze.gif)
 
+## How to run the program?
+This program uses pygame. To install the required dependencies, run:
+
+```
+$ pip install -r requirements.txt
+```
+
+Then you can run the code using:
+
+```
+python run.py
+```
+
+## The program structure
 In this program, a robot explores a maze to arrive at destination. 
 
 The maze generation code is located in the package `lib.maze`.
