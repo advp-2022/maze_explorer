@@ -22,7 +22,7 @@ This code also contains two main classes inheriting from `pygame.sprite.Sprite`,
   * `move_up`
   * `move_down`
 
-<img src="graphics/directions.png" alt="drawing" width="10"/>
+<img src="graphics/directions.png" alt="drawing" width="400"/>
 
 * The class `Target`: It is the class responsible for the target's appearance and position. In this exercise, the target doesn't move, it will appear always on the same exact position of the maze.
 
@@ -44,7 +44,7 @@ We can use a movements matrix to record the visited neighbor:
 
 An example of a randomly generated maze is as follows:
 
-![](graphics/maze.png)
+<img src="graphics/maze.png" alt="drawing" width="400"/>
 
 In this case, the `Player` should move in a more intelligent way to reach the target. The end goal is to achieve the scenario in the animation shown above.
 
