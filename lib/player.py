@@ -26,68 +26,37 @@ class Player(pygame.sprite.Sprite):
         """ This is the class constructor """
         super().__init__()
         self.pos = pos # The position of the player
-        self.maze = maze
+        self.maze = maze # Copy of the maze for single player
         self.image = pygame.image.load("graphics/robot.png").convert() # Load the player's image
         self.image = pygame.transform.scale(self.image, (BLOCK_SIZE, BLOCK_SIZE)) # set the size to fit the size of the maze cells = BLOCK_SIZE
         self.rect = self.image.get_rect(center=self.pos) # Create a rectangle around the image to use is late for collision detection.
         self.image.set_colorkey(BLACK) # Adjust the image transparency
-        self.visited_pos = [] # Initialize an empty list to store the visited cells at a later stage
-        self.last_cell_before_dead_end = [] # Initialize an empty list to store the positions of the last cells you visited before reaching a dead end.
 
-    def explore(self):
-        """ This function is responsible for the movement of the player"""
-        r = int(self.pos.y/50) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
-        c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
-        self.maze[r][c] = -1 # mark the already visited cells as -1
-        next_move = self.get_available_moves(self.get_neighbors(), False)
-        if not next_move:
-            self.maze[r][c] = "D" # mark the already visited cells as dead end "D"
-            if self.pos != self.last_cell_before_dead_end[-1]:
-                self.backtrack()
-            else:
-                self.last_cell_before_dead_end.pop(-1)
+    def move(self):
+        r = int(self.pos.y/BLOCK_SIZE) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
+        c = int(self.pos.x/BLOCK_SIZE) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
+        possible_moves = self.get_possible_moves(r, c) #get neighbor cells' values with possible moves
+        filtered_moves = filter(lambda possible_move:possible_move[0]==0,possible_moves) #choosing only paths with zero values
+        filtered = list(filtered_moves)
+        try: #checking if the paths with zero values exits in this situation
+            next_move = random.choice(filtered) #choosing one of the paths randomly
+            self.pos = next_move[1] #moving the robot to the chosen cell
+            self.maze[r][c] = 50 #mark visited cell
+        except:
+            self.maze[r][c] -= 1 #mark dead ends/loops
+            possible_moves.sort(key=lambda possible_move:possible_move[0]) #sort pathes in increasing order of values
+            self.pos = possible_moves[-1][1] #choose the path with highest value
+        self.rect = self.image.get_rect(center=self.pos) #update position
 
-        elif len(next_move)>1:
-            self.last_cell_before_dead_end.append(self.pos)
-            random.choice(next_move)()
-        else:
-            random.choice(next_move)()
-        self.rect = self.image.get_rect(center=self.pos)
-    
-    def backtrack(self):
-        self.get_available_moves(self.get_neighbors(), True)[0]()
-
-    def get_available_moves(self, neighbors_list, visited):
-        """ This method will return a list of valid moves given a neighbors list. The valid moves should be where there is a neighboring empty cells (with values 0)
-        """
-        all_moves = [self.move_right, self.move_left, self.move_up, self.move_down]
-        if not visited:
-            # get the indexes of the empty neighbor cells (values are zeros)
-            indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == 0]
-        else:
-            # get the indexes of the already visited neighbor cells (values are -1)
-            indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == -1]
-        return [all_moves[i] for i in indexes]
-
-    def get_neighbors(self):
-        """
-        This function will return the values of all the neighbors of the robot in a list in the following order: [Right, Left, Up, Down]
-        """
-        r = int(self.pos.y/50) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
-        c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
-        return [self.maze[r][c+1], self.maze[r][c-1], self.maze[r-1][c], self.maze[r+1][c]]
-    
-    def move_right(self):
-        self.pos = self.pos + Vector2((BLOCK_SIZE,0))
-
-    def move_left(self):
-        self.pos = self.pos + Vector2((-BLOCK_SIZE,0))
-
-    def move_up(self):
-        self.pos = self.pos + Vector2((0,-BLOCK_SIZE))
-
-    def move_down(self):
-        self.pos = self.pos + Vector2((0,BLOCK_SIZE))
+    def get_possible_moves(self, r, c):
+        #list of tuples
+        #Each tuple holds the value of neighboring cell and its position
+        possible_moves = []
+        possible_moves.append((self.maze[r][c+1], self.pos + Vector2((BLOCK_SIZE,0)))) #moving right
+        possible_moves.append((self.maze[r][c-1], self.pos + Vector2((-BLOCK_SIZE,0)))) #moving left
+        possible_moves.append((self.maze[r-1][c], self.pos + Vector2((0,-BLOCK_SIZE)))) #moving up
+        possible_moves.append((self.maze[r+1][c], self.pos + Vector2((0,BLOCK_SIZE)))) #moving down
+        return possible_moves
 
     def checkCollision(self, sprite2):
         col = self.rect.colliderect(sprite2)
