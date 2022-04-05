@@ -68,3 +68,26 @@ In this case, the `Player` should move in a more intelligent way to reach the ta
 
 As it moves, the robot will always check for available moves using the function `get_available_moves()`. You can mark the already visited cells in the matrix as "-1", instead of "0" (empty cell) or "1" (Wall). This way, you can keep track of the cells you already visited.
 You can also use an array or list to store the visited positions.
+
+
+## TODO
+
+List of things that need improvements or code refactoring
+
+### Code scalability
+
+1. Fix the GLOBAL_VAIRABLES issues.
+2. Make the algorithm work for any maze, even with loops:
+
+  * Create a baseline maze with multiple loops
+  * Generate random mazes with loops
+  * Locate the problems in the current design 
+  * Try the greedy algorithm, the robot will start numbering the cases, and will restart the numbering at each location with multiple paths options.
+
+### Add-ons
+
+* Let the user pick a starting position
+* Appearance of unexpected things that block the road
+* Learn the shortest path under the condition to re-run the same maze twice.
+* Add the flag STATIC_MAZE in order to choose between solving mode and learning mode.
+
