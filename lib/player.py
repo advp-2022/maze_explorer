@@ -39,6 +39,8 @@ class Player(pygame.sprite.Sprite):
         r = int(self.pos.y/50) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         self.maze[r][c] -= 1 # mark the already visited cells as -1
+        if self.deadend(self.get_neighbors()):
+            self.maze[r][c] -= 50
         next_move = self.get_available_moves(self.get_neighbors(), False)
      
         next_move()
@@ -70,6 +72,15 @@ class Player(pygame.sprite.Sprite):
 
         return maxex
         
+    def deadend(self,l):
+        count=0
+        for x in range(0,len(l)):
+            if l[x]< -50:
+                count+=1
+        if count==3:
+            return True
+        else:
+            return False
     
     def move_right(self):
         self.pos = self.pos + Vector2((BLOCK_SIZE,0))
