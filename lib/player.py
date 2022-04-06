@@ -40,30 +40,15 @@ class Player(pygame.sprite.Sprite):
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         self.maze[r][c] -= 1 # mark the already visited cells as -1
         next_move = self.get_available_moves(self.get_neighbors(), False)
-     #   if not next_move:
-     #       self.maze[r][c] = 50 # mark the already visited cells as dead end "D"
-     #       if self.pos != self.last_cell_before_dead_end[-1]:
-     #           self.backtrack()
-     #       else:
-     #           self.last_cell_before_dead_end.pop(-1)
-#
-     #   elif len(next_move)>1:
-     #       self.last_cell_before_dead_end.append(self.pos)
-     #       random.choice(next_move)()
-     #   else:
+     
         next_move()
         self.rect = self.image.get_rect(center=self.pos)
     
-    def backtrack(self):
-        self.get_available_moves(self.get_neighbors(), True)[0]()
-
     def get_available_moves(self, neighbors_list, visited):
-        """ This method will return a list of valid moves given a neighbors list. The valid moves should be where there is a neighboring empty cells (with values 0)
+        """ this function will return the move of least risistance in my algo that is the path with value closest to 0
         """
         all_moves = [self.move_right, self.move_left, self.move_up, self.move_down]
-
-         
-        
+ 
         return all_moves[self.maxex(neighbors_list)]
 
     def get_neighbors(self):
@@ -75,7 +60,7 @@ class Player(pygame.sprite.Sprite):
         return [self.maze[r][c+1], self.maze[r][c-1], self.maze[r-1][c], self.maze[r+1][c]]
 
     def maxex(self,l):
-
+#     this function returns the index of the hieghst value in a list 
         maximum= l[0]
         maxex=0
         for x in range(1,len(l)):
