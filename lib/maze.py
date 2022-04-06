@@ -16,13 +16,13 @@ GREEN = (0, 83, 19) # defining the green color using RBG
 def surroundingCells(maze, rand_wall):
     s_cells = 0
     if (maze[rand_wall[0]-1][rand_wall[1]] == CELL):
-        s_cells += 1
+        s_cells += WALL
     if (maze[rand_wall[0]+1][rand_wall[1]] == CELL):
-        s_cells += 1
+         s_cells += WALL
     if (maze[rand_wall[0]][rand_wall[1]-1] == CELL):
-        s_cells +=1
+        s_cells += WALL
     if (maze[rand_wall[0]][rand_wall[1]+1] == CELL):
-        s_cells += 1
+         s_cells += WALL
 
     return s_cells
 
@@ -30,18 +30,18 @@ def predefined_maze():
     """
     This function creates a predefined circuit maze
     """
-    maze = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+    maze = [[WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+        [WALL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, WALL],
+        [WALL, WALL, WALL,WALL, WALL, WALL, WALL, WALL, WALL, WALL, CELL, WALL],
+        [WALL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, WALL],
+        [WALL, CELL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+        [WALL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, WALL],
+        [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, CELL, WALL],
+        [WALL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, WALL],
+        [WALL, CELL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+        [WALL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, CELL, WALL],
+        [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL],
+        [WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL]]
     return maze
 
 def randomMaze(height, width):
@@ -87,7 +87,7 @@ def randomMaze(height, width):
         rand_wall = walls[int(random.random()*len(walls))-1]
 
         # Check if it is a left wall
-        if (rand_wall[1] != 0):
+        if (rand_wall[1] != CELL):
             if (maze[rand_wall[0]][rand_wall[1]-1] == 'u' and maze[rand_wall[0]][rand_wall[1]+1] == CELL):
                 # Find the number of surrounding cells
                 s_cells = surroundingCells(maze, rand_wall)
@@ -113,7 +113,7 @@ def randomMaze(height, width):
                             walls.append([rand_wall[0]+1, rand_wall[1]])
 
                     # Leftmost cell
-                    if (rand_wall[1] != 0): 
+                    if (rand_wall[1] != CELL): 
                         if (maze[rand_wall[0]][rand_wall[1]-1] != CELL):
                             maze[rand_wall[0]][rand_wall[1]-1] =  WALL
                         if ([rand_wall[0], rand_wall[1]-1] not in walls):
@@ -128,7 +128,7 @@ def randomMaze(height, width):
                 continue
 
         # Check if it is an upper wall
-        if (rand_wall[0] != 0):
+        if (rand_wall[0] != CELL):
             if (maze[rand_wall[0]-1][rand_wall[1]] == 'u' and maze[rand_wall[0]+1][rand_wall[1]] == CELL):
 
                 s_cells = surroundingCells(maze, rand_wall)
@@ -138,14 +138,14 @@ def randomMaze(height, width):
 
                     # Mark the new walls
                     # Upper cell
-                    if (rand_wall[0] != 0):
+                    if (rand_wall[0] != CELL):
                         if (maze[rand_wall[0]-1][rand_wall[1]] != CELL):
                             maze[rand_wall[0]-1][rand_wall[1]] =  WALL
                         if ([rand_wall[0]-1, rand_wall[1]] not in walls):
                             walls.append([rand_wall[0]-1, rand_wall[1]])
 
                     # Leftmost cell
-                    if (rand_wall[1] != 0):
+                    if (rand_wall[1] != CELL):
                         if (maze[rand_wall[0]][rand_wall[1]-1] != CELL):
                             maze[rand_wall[0]][rand_wall[1]-1] =  WALL
                         if ([rand_wall[0], rand_wall[1]-1] not in walls):
@@ -263,11 +263,11 @@ def drawMaze(screen, maze, BLOCK_SIZE):
     for row in maze:
         x = 0 # for every row we start at the left of the screen again
         for item in row:
-            if item == 0:
+            if item == CELL:
                 createSquare(screen, BLOCK_SIZE, x, y, WHITE)
-            elif item == 1:
+            elif item == WALL:
                 createSquare(screen, BLOCK_SIZE, x, y, GREEN)
-            elif item == -1:
+            elif item  == -1 :
                 pygame.draw.rect(screen, BLACK, [x+BLOCK_SIZE/2, y+BLOCK_SIZE/2, 5, 5])
             elif item == "D":
                 pygame.draw.rect(screen, (200,0,0), [x+BLOCK_SIZE/2, y+BLOCK_SIZE/2, 5, 5])
