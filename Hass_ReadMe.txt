@@ -1,1 +1,5 @@
 i didnt do major re-working of the code, i just switched up what i needed to fit my algorithem into it, now the backtracking system is not needed, some aspects need to be ironed out, but its mostly functional 
+
+
+
+

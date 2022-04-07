@@ -50,8 +50,10 @@ class Player(pygame.sprite.Sprite):
         """ this function will return the move of least risistance in my algo that is the path with value closest to 0
         """
         all_moves = [self.move_right, self.move_left, self.move_up, self.move_down]
- 
-        return all_moves[self.maxex(neighbors_list)]
+
+        indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == max(neighbors_list)]
+        return all_moves[indexes[0]]
+
 
     def get_neighbors(self):
         """
@@ -61,17 +63,7 @@ class Player(pygame.sprite.Sprite):
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         return [self.maze[r][c+1], self.maze[r][c-1], self.maze[r-1][c], self.maze[r+1][c]]
 
-    def maxex(self,l):
-#     this function returns the index of the hieghst value in a list 
-        maximum= l[0]
-        maxex=0
-        for x in range(1,len(l)):
-            if l[x]>= maximum:
-                maximum=l[x]
-                maxex=x
-
-        return maxex
-        
+   
     def deadend(self,l):
         count=0
         for x in range(0,len(l)):
