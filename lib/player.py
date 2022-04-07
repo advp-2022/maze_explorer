@@ -75,7 +75,7 @@ class Player(pygame.sprite.Sprite):
     def deadend(self,l):
         count=0
         for x in range(0,len(l)):
-            if l[x]< -50:
+            if l[x] == -100:
                 count+=1
         if count==3:
             return True
