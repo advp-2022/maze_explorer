@@ -22,11 +22,15 @@ class Player(pygame.sprite.Sprite):
     def __init__(self,
                 pos,
                 maze,
+                random_pos
                 ):
         """ This is the class constructor """
         super().__init__()
-        self.pos = pos # The position of the player
         self.maze = maze # Copy of the maze for single player
+        if(random_pos):
+            self.pos = random.choice(self.get_available_cells()) # Random position of the player
+        else:
+            self.pos = pos #Selected position of the player
         self.image = pygame.image.load("graphics/robot.png").convert() # Load the player's image
         self.image = pygame.transform.scale(self.image, (BLOCK_SIZE, BLOCK_SIZE)) # set the size to fit the size of the maze cells = BLOCK_SIZE
         self.rect = self.image.get_rect(center=self.pos) # Create a rectangle around the image to use is late for collision detection.
@@ -35,11 +39,11 @@ class Player(pygame.sprite.Sprite):
     def move(self):
         r = int(self.pos.y/BLOCK_SIZE) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
         c = int(self.pos.x/BLOCK_SIZE) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
-        possible_moves = self.get_possible_moves(r, c) #get neighbor cells' values with possible moves
+        possible_moves = self.get_possible_moves(r, c) #get neighbor cells' values with their positions
         filtered_moves = filter(lambda possible_move:possible_move[0]==0,possible_moves) #choosing only paths with zero values
         filtered = list(filtered_moves)
         try: #checking if the paths with zero values exits in this situation
-            next_move = random.choice(filtered) #choosing one of the paths randomly
+            next_move = random.choice(filtered) #choosing one of the zero valued paths randomly
             self.pos = next_move[1] #moving the robot to the chosen cell
             self.maze[r][c] = 50 #mark visited cell
         except:
@@ -63,6 +67,15 @@ class Player(pygame.sprite.Sprite):
         if col == True:
             print("You Win!")
             sys.exit()
+
+
+    def get_available_cells(self):
+        available_cells = []
+        for index_row, row in enumerate(self.maze):
+            for index_col, elem in enumerate(row):
+                if elem == 0:
+                     available_cells.append(Vector2((index_col*BLOCK_SIZE, index_row*BLOCK_SIZE)))
+        return available_cells
 
 class Target(pygame.sprite.Sprite):
     def __init__(self,pos, maze):
