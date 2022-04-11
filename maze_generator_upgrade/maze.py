@@ -66,6 +66,35 @@ def random_point(width,hight):
 
 #--------------------------------------------------------------
 
+def add_start_end_positions(starting_position,ending_position,maze):
+	"""
+	The user can manually enter the start and end points by placing
+	each of them in a list or by calling the method
+	"random_point(width,hight)" to randomly create the points
+
+	output example:
+
+	maze = add_start_end_positions(random_point(width,hight),random_point(width,hight),maze)
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  0  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+	@  @  @  @  @  u  @  @  @  @  
+	@  @  @  @  @  @  @  @  @  @  
+
+	"""
+	maze[starting_position[0]][starting_position[1]] = path
+	maze[ending_position[0]][ending_position[1]] = end
+	return maze
+
+maze = add_start_end_positions(random_point(width,hight),random_point(width,hight),maze)
+
+#--------------------------------------------------------------
+
 """
 for printing the maze as 2D array.
 """
