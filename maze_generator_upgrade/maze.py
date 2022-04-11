@@ -95,6 +95,28 @@ maze = add_start_end_positions(random_point(width,hight),random_point(width,high
 
 #--------------------------------------------------------------
 
+def count_the_surrounding_walls(i,j,maze):
+	"""
+	this method for counting the surrounding walls around the cell
+
+	output example:
+
+	count = count_the_surrounding_walls(i,j,maze)
+	count = 4
+	"""
+	count = 0
+	if (maze[i-1][j]==wall):
+		count = count + 1
+	if (maze[i+1][j]==wall):
+		count = count + 1
+	if (maze[i][j+1]==wall):
+		count = count + 1
+	if (maze[i][j-1]==wall):
+		count = count + 1
+	return count
+
+#--------------------------------------------------------------
+
 """
 for printing the maze as 2D array.
 """
