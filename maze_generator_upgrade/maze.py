@@ -117,6 +117,29 @@ def count_the_surrounding_walls(i,j,maze):
 
 #--------------------------------------------------------------
 
+def check_the_near_path(i,j,maze):
+	"""
+	this method for checking if there are three
+	paths near each others
+
+	output example:
+
+	count = check_the_near_path(i,j,maze)
+	count = 4
+	"""
+	count = 0
+	if (maze[i-1][j]==path):
+		count = count + 1
+	if (maze[i+1][j]==path):
+		count = count + 1
+	if (maze[i][j+1]==path):
+		count = count + 1
+	if (maze[i][j-1]==path):
+		count = count + 1
+	return count
+
+#--------------------------------------------------------------
+
 """
 for printing the maze as 2D array.
 """
