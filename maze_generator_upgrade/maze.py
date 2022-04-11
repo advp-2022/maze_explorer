@@ -48,6 +48,24 @@ maze = create_maze_walls_only(width,hight)
 
 #--------------------------------------------------------------
 
+def random_point(width,hight):
+	"""
+	this method should return a random starting or ending point
+	
+	output example:
+
+	position = random_point(width,hight)
+	position [2,5]
+	"""
+	w = width-2
+	h = hight-2
+	starting_row = random.randint(1,w)
+	starting_col = random.randint(1,h)
+	position = [starting_row,starting_col]
+	return position
+
+#--------------------------------------------------------------
+
 """
 for printing the maze as 2D array.
 """
