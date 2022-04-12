@@ -15,8 +15,8 @@ WINDOW_WIDTH = int(config['DEFAULT']['WINDOW_WIDTH']) # defining the width of th
 BLOCK_SIZE = int(config['DEFAULT']['BLOCK_SIZE']) #Set the size of the grid block
 # MAZE = maze.predefined_maze() # call this function to get the maze matrix, which will be used to draw the maze on the window, and will also be used by the robot to navigate the maze.
 # MAZE = maze.predefined_empty_maze() # generate a predefined maze with no inner-walls
-# MAZE = maze.predefined_loop_maze() # generate a predefined maze with loops
-MAZE = maze.randomMaze(int(WINDOW_HEIGHT/BLOCK_SIZE), int(WINDOW_WIDTH/BLOCK_SIZE))
+MAZE = maze.predefined_loop_maze2() # generate a predefined maze with loops
+# MAZE = maze.randomMaze(int(WINDOW_HEIGHT/BLOCK_SIZE), int(WINDOW_WIDTH/BLOCK_SIZE))
 
 def createSquare(x, y, color):
     pygame.draw.rect(SCREEN, color, [x, y, BLOCK_SIZE, BLOCK_SIZE])
@@ -28,7 +28,7 @@ def main():
     SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     CLOCK = pygame.time.Clock()
     
-    _player = player.Player(pos = Vector2(BLOCK_SIZE, BLOCK_SIZE), maze = MAZE, random_pos = False) #set True to generate random position for the player
+    _player = player.Player(pos = Vector2(BLOCK_SIZE, BLOCK_SIZE), maze = MAZE, random_pos = True) #set True to generate random position for the player
     _target = player.Target((random.randrange(BLOCK_SIZE, WINDOW_WIDTH, BLOCK_SIZE),random.randrange(BLOCK_SIZE, WINDOW_HEIGHT, BLOCK_SIZE)), maze=MAZE)
 
     while True:
