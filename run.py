@@ -14,8 +14,8 @@ WINDOW_HEIGHT = int(config['DEFAULT']['WINDOW_HEIGHT']) # defining the height of
 WINDOW_WIDTH = int(config['DEFAULT']['WINDOW_WIDTH']) # defining the width of the game window in pixels
 BLOCK_SIZE = int(config['DEFAULT']['BLOCK_SIZE']) #Set the size of the grid block
 MAZE = maze.predefined_maze() # call this function to get the maze matrix, which will be used to draw the maze on the window, and will also be used by the robot to navigate the maze.
-MAZE = maze.randomMaze(int(WINDOW_HEIGHT/BLOCK_SIZE), int(WINDOW_WIDTH/BLOCK_SIZE))
-
+# MAZE = maze.randomMaze(int(WINDOW_HEIGHT/BLOCK_SIZE), int(WINDOW_WIDTH/BLOCK_SIZE))
+MAZE=maze.freeRun()
 def createSquare(x, y, color):
     pygame.draw.rect(SCREEN, color, [x, y, BLOCK_SIZE, BLOCK_SIZE])
 

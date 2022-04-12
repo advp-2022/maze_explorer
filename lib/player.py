@@ -16,9 +16,15 @@ BLOCK_SIZE = int(config['DEFAULT']['BLOCK_SIZE']) #Set the size of the grid bloc
 
 
 class Player(pygame.sprite.Sprite):
+   
+
+
     """
     This is the Player class, which is used to define the main functionalities of the player.
+
     """
+
+
     def __init__(self,
                 pos,
                 maze,
@@ -33,6 +39,11 @@ class Player(pygame.sprite.Sprite):
         self.image.set_colorkey(BLACK) # Adjust the image transparency
         self.visited_pos = [] # Initialize an empty list to store the visited cells at a later stage
         self.last_cell_before_dead_end = [] # Initialize an empty list to store the positions of the last cells you visited before reaching a dead end.
+
+   
+
+
+
 
     def explore(self):
         """ This function is responsible for the movement of the player"""
@@ -57,6 +68,10 @@ class Player(pygame.sprite.Sprite):
     def backtrack(self):
         self.get_available_moves(self.get_neighbors(), True)[0]()
 
+
+
+
+
     def get_available_moves(self, neighbors_list, visited):
         """ This method will return a list of valid moves given a neighbors list. The valid moves should be where there is a neighboring empty cells (with values 0)
         """
@@ -69,6 +84,11 @@ class Player(pygame.sprite.Sprite):
             indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == -1]
         return [all_moves[i] for i in indexes]
 
+
+
+
+
+
     def get_neighbors(self):
         """
         This function will return the values of all the neighbors of the robot in a list in the following order: [Right, Left, Up, Down]
@@ -77,6 +97,11 @@ class Player(pygame.sprite.Sprite):
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         return [self.maze[r][c+1], self.maze[r][c-1], self.maze[r-1][c], self.maze[r+1][c]]
     
+
+
+
+
+
     def move_right(self):
         self.pos = self.pos + Vector2((BLOCK_SIZE,0))
 
@@ -95,6 +120,10 @@ class Player(pygame.sprite.Sprite):
             print("You Win!")
             sys.exit()
 
+
+
+
+
 class Target(pygame.sprite.Sprite):
     def __init__(self,pos, maze):
         super().__init__()
@@ -104,6 +133,12 @@ class Target(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (BLOCK_SIZE, BLOCK_SIZE))
         self.rect = self.image.get_rect(center=self.pos)
         self.image.set_colorkey((0, 0, 0))
+
+
+
+
+
+
 
     def get_available_cells(self):
         available_cells = []
