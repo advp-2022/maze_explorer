@@ -3,19 +3,10 @@ import random
 width = 10
 hight = 10
 wall = '@'
-path = '0'
-end = 'u'
-maze = [[None] * (hight) for _ in range(width)]
-
-def predefined_maze():
-	maze = [[1,2,3,4,5],
-			[1,2,3,4,5],
-			[1,2,3,4,5],
-			[1,2,3,4,5],
-			[1,2,3,4,5]]
-	return maze
-
-#--------------------------------------------------------------
+path = 0
+start = 'S'
+end = 'E'
+maze = []
 
 def create_maze_walls_only(width,hight):
 	"""
@@ -38,9 +29,11 @@ def create_maze_walls_only(width,hight):
 	@  @  @  @  @  @  @  @  @  @
 	      
 	"""
-	for i in range(width):
-		for j in range(hight):
-			maze[i][j] = wall
+	for i in range(hight):
+		line = []
+		for j in range(width):
+			line.append(wall)
+		maze.append(line)
 	return maze
 
 
@@ -57,10 +50,8 @@ def random_point(width,hight):
 	position = random_point(width,hight)
 	position [2,5]
 	"""
-	w = width-2
-	h = hight-2
-	starting_row = random.randint(1,w)
-	starting_col = random.randint(1,h)
+	starting_row = random.randint(1,hight-2)
+	starting_col = random.randint(1,width-2)
 	position = [starting_row,starting_col]
 	return position
 
@@ -87,11 +78,9 @@ def add_start_end_positions(starting_position,ending_position,maze):
 	@  @  @  @  @  @  @  @  @  @  
 
 	"""
-	maze[starting_position[0]][starting_position[1]] = path
+	maze[starting_position[0]][starting_position[1]] = start
 	maze[ending_position[0]][ending_position[1]] = end
 	return maze
-
-maze = add_start_end_positions(random_point(width,hight),random_point(width,hight),maze)
 
 #--------------------------------------------------------------
 
@@ -117,34 +106,121 @@ def count_the_surrounding_walls(i,j,maze):
 
 #--------------------------------------------------------------
 
-def check_the_near_path(i,j,maze):
-	"""
-	this method for checking if there are three
-	paths near each others
+def check_next_step(width, hight, i, j, maze):
+	
+	if (i == 1 and j != width-1):
+		if (maze[i+1][j] == wall):
+			if (maze[i][j+1] == wall):
+				point = random.randint(1,2)
+				if (point == 1):
+					maze[i+1][j] = path
+				else:
+					maze[i][j+1] = path
 
-	output example:
+	if (i == 1 and j == width-1):
+		if (maze[i+1][j] == wall):
+			if (maze[i][j-1] == wall):
+				point = random.randint(1,2)
+				if (point == 1):
+					maze[i+1][j] = path
+				else:
+					maze[i][j-1] = path
+	
+	#            Error
+	#            -----
+	#
+	# if (i >= 2 and j != width-1):
+	# 	if (maze[i-1][j] == wall):
+	# 		if (maze[i+1][j] == wall):
+	# 			if (maze[i][j+1] == wall):
+	# 				point = random.randint(1,2)
+	# 				if (point == 1):
+	# 					maze[i-1][j] = path
+	# 				else:
+	# 					maze[i][j+1] = path	
 
-	count = check_the_near_path(i,j,maze)
-	count = 4
-	"""
-	count = 0
-	if (maze[i-1][j]==path):
-		count = count + 1
-	if (maze[i+1][j]==path):
-		count = count + 1
-	if (maze[i][j+1]==path):
-		count = count + 1
-	if (maze[i][j-1]==path):
-		count = count + 1
-	return count
+	if (i >= 2 and j == width-1):
+		if (maze[i-1][j] == wall):
+			if (maze[i+1][j] == wall):
+				if (maze[i][j-1] == wall):
+					point = random.randint(1,2)
+					if (point == 1):
+						maze[i-1][j] = path
+					else:
+						maze[i][j-1] = path	
+
+	return maze
 
 #--------------------------------------------------------------
 
+def creating_path(width,hight,maze):
+	i = 1
+	while (i < hight-1):
+		j = 1
+		while (j < width-1):
+			if (i < hight-2 and j < width-2):
+				point = random.randint(1,2)
+				if (point == 1):
+					maze[i+1][j] = path	
+				elif (point == 2):
+					maze[i][j+1] = path
+
+			elif(i == hight-1 and j < width-2):
+				point = random.randint(1,4)
+				if (point == 1):
+					maze[i-1][j] = path
+				elif (point == 2):
+					maze[i][j+1] = path
+
+			elif(i < hight-2 and j == width-1):
+				point = random.randint(1,4)
+				if (point == 1):
+					maze[i+1][j] = path
+				elif (point == 2):
+					maze[i][j-1] = path
+
+			elif(i == hight-1 and j == width-1):
+				point = random.randint(1,3)
+				if (point == 1):
+					maze[i-1][j] = path
+				elif (point == 2):
+					maze[i][j-1] = path
+
+			j = j + 1
+		i = i + 1
+
+	return maze
+
+maze = creating_path(width,hight,maze)
+maze = add_start_end_positions(random_point(width,hight),random_point(width,hight),maze)
+
+#--------------------------------------------------------------
+
+
+def solve_path_problems(width,hight,maze):
+	"""
+	"""
+	for x in range(hight):
+		i = 1
+		while (i < hight-1):
+			j = 1
+			while (j < width-1):
+				if (maze[i][j] == path or maze[i][j] == start or maze[i][j] == end):
+					maze = check_next_step(width, hight, i, j, maze)
+				j = j + 1
+			i = i + 1
+
+	return maze
+
+maze = solve_path_problems(width,hight,maze)
+
+#--------------------------------------------------------------
 """
 for printing the maze as 2D array.
 """
 
-for i in range(10):
-	for j in range(10):
+for i in range(hight):
+	for j in range(width):
 		print(maze[i][j],end="  ")
 	print()
+
