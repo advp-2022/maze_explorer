@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=self.pos) # Create a rectangle around the image to use is late for collision detection.
         self.image.set_colorkey(BLACK) # Adjust the image transparency
 
-    def move(self):
+    def explore(self):
         r = int(self.pos.y/BLOCK_SIZE) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
         c = int(self.pos.x/BLOCK_SIZE) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         possible_moves = self.get_possible_moves(r, c) #get neighbor cells' values with their positions

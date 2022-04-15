@@ -38,7 +38,7 @@ def main():
                 sys.exit()
 
         SCREEN.fill(WHITE)
-        _player.move()
+        _player.explore()
         maze.drawMaze(SCREEN, MAZE, BLOCK_SIZE) # Call the drawMaze method from the lib package to draw the maze on the screen 
         SCREEN.blit(_target.image,_target.pos)
         SCREEN.blit(_player.image,_player.pos)
