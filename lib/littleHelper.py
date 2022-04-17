@@ -44,12 +44,18 @@ class littleHelper(pygame.sprite.Sprite):
         """ This function is responsible for the movement of the player"""
         r = int(self.pos.y/50) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
+
+        self.visited_pos.append((r,c))
+
+
         self.maze[r][c] -= 1 # mark the already visited cells as -1
         if self.deadend(self.get_neighbors()):
-            self.maze[r][c] -= 50
-        next_move = self.get_available_moves(self.get_neighbors(), False)
+            __del__()
+
+            
+        self.pos = self.get_available_moves(self.get_neighbors(), False)
      
-        next_move()
+        
         self.rect = self.image.get_rect(center=self.pos)
     
     def get_available_moves(self, neighbors_list, visited):
@@ -58,10 +64,11 @@ class littleHelper(pygame.sprite.Sprite):
         all_moves = [self.move_right, self.move_left, self.move_up, self.move_down]
 
         indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == max(neighbors_list)]
+
         if len(indexes)>1:
             for x in range(0,len(indexes)):
-                _player = player.Player(pos = all_moves[indexes[x]], maze = MAZE)
-                
+                _littleHelper = littleHelper.Player(pos = all_moves[indexes[x]], maze = MAZE,self.visited_pos)
+            __del__()       
         return all_moves[indexes[0]]
 
 
