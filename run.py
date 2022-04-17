@@ -1,6 +1,6 @@
 import pygame, sys, random
 from pygame.math import Vector2
-from lib import maze, player
+from lib import maze, player, littleHelper
 import configparser
 
 config = configparser.ConfigParser()
@@ -25,8 +25,10 @@ def main():
     pygame.init()
     SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
     CLOCK = pygame.time.Clock()
-    
-    _player = player.Player(pos = Vector2(BLOCK_SIZE, BLOCK_SIZE), maze = MAZE)
+    r=[]
+    c=[]
+
+    _player = littleHelper.Player(pos = Vector2(BLOCK_SIZE, BLOCK_SIZE), maze = MAZE,r,c)
     _target = player.Target((random.randrange(BLOCK_SIZE, WINDOW_WIDTH, BLOCK_SIZE),random.randrange(BLOCK_SIZE, WINDOW_HEIGHT, BLOCK_SIZE)), maze=MAZE)
 
     while True:
