@@ -26,9 +26,8 @@ class littleHelper(pygame.sprite.Sprite):
     """
     def __init__(self,
                 pos,
+               
                 maze,
-                visited_posr,
-                visited_posc
                 ):
         """ This is the class constructor """
         super().__init__()
@@ -38,8 +37,8 @@ class littleHelper(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (BLOCK_SIZE, BLOCK_SIZE)) # set the size to fit the size of the maze cells = BLOCK_SIZE
         self.rect = self.image.get_rect(center=self.pos) # Create a rectangle around the image to use is late for collision detection.
         self.image.set_colorkey(BLACK) # Adjust the image transparency
-        self.visited_posr = visited_posr 
-        self.visited_posc = visited_posc
+        self.visited_posr = [] 
+        self.visited_posc = []
         self.last_cell_before_dead_end = [] # Initialize an empty list to store the positions of the last cells you visited before reaching a dead end.
 
     def explore(self):
@@ -57,8 +56,9 @@ class littleHelper(pygame.sprite.Sprite):
             __del__()
 
 
-        self.pos = self.get_available_moves(self.get_neighbors(), False)
-     
+        x = self.get_available_moves(self.get_neighbors(), False)
+        
+        self.pos= self.pos +x
         
         self.rect = self.image.get_rect(center=self.pos)
     
@@ -71,7 +71,7 @@ class littleHelper(pygame.sprite.Sprite):
 
         if len(indexes)>1:
             for x in range(0,len(indexes)):
-                _littleHelper = littleHelper.Player(pos = all_moves[indexes[x]], maze = MAZE,self.visited_pos)
+                _littleHelper = littleHelper(pos = all_moves[indexes[x]], maze = self.maze)
             __del__()       
         return all_moves[indexes[0]]
 
@@ -96,16 +96,16 @@ class littleHelper(pygame.sprite.Sprite):
             return False
     
     def move_right(self):
-        return self.pos + Vector2((BLOCK_SIZE,0))
+        return  Vector2((BLOCK_SIZE,0))
 
     def move_left(self):
-        return self.pos + Vector2((-BLOCK_SIZE,0))
+        return  Vector2((-BLOCK_SIZE,0))
 
     def move_up(self):
-        return self.pos + Vector2((0,-BLOCK_SIZE))
+        return  Vector2((0,-BLOCK_SIZE))
 
     def move_down(self):
-        return self.pos + Vector2((0,BLOCK_SIZE))
+        return  Vector2((0,BLOCK_SIZE))
 
     def checkCollision(self, sprite2):
         col = self.rect.colliderect(sprite2)
