@@ -28,7 +28,7 @@ def main():
     r=[]
     c=[]
 
-    _player = littleHelper.littleHelper(pos = Vector2(BLOCK_SIZE, BLOCK_SIZE), maze = MAZE)
+    _player = littleHelper.littleHelper(Vector2(BLOCK_SIZE, BLOCK_SIZE), MAZE,r,c)
     _target = player.Target((random.randrange(BLOCK_SIZE, WINDOW_WIDTH, BLOCK_SIZE),random.randrange(BLOCK_SIZE, WINDOW_HEIGHT, BLOCK_SIZE)), maze=MAZE)
 
     while True:

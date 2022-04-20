@@ -26,8 +26,9 @@ class littleHelper(pygame.sprite.Sprite):
     """
     def __init__(self,
                 pos,
-               
                 maze,
+                posr,
+                posc
                 ):
         """ This is the class constructor """
         super().__init__()
@@ -37,28 +38,26 @@ class littleHelper(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(self.image, (BLOCK_SIZE, BLOCK_SIZE)) # set the size to fit the size of the maze cells = BLOCK_SIZE
         self.rect = self.image.get_rect(center=self.pos) # Create a rectangle around the image to use is late for collision detection.
         self.image.set_colorkey(BLACK) # Adjust the image transparency
-        self.visited_posr = [] 
-        self.visited_posc = []
-        self.last_cell_before_dead_end = [] # Initialize an empty list to store the positions of the last cells you visited before reaching a dead end.
+        self.posr = posr 
+        self.posc = posc
 
     def explore(self):
         """ This function is responsible for the movement of the player"""
         r = int(self.pos.y/50) # get the row index (r), PAY ATTENTION that it is equivalent to the y position on the screen
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
 
-        self.visited_posr.append(r)
-        self.visited_posc.append(c)
+        self.posr.append(r)
+        self.posc.append(c)
 
 
 
         self.maze[r][c] -= 1 # mark the already visited cells as -1
         if self.deadend(self.get_neighbors()):
-            __del__()
+            self.__del__()
 
 
-        x = self.get_available_moves(self.get_neighbors(), False)
-        
-        self.pos= self.pos +x
+        x= self.get_available_moves(self.get_neighbors(), False)
+        self.pos= x()
         
         self.rect = self.image.get_rect(center=self.pos)
     
@@ -71,8 +70,8 @@ class littleHelper(pygame.sprite.Sprite):
 
         if len(indexes)>1:
             for x in range(0,len(indexes)):
-                _littleHelper = littleHelper(pos = all_moves[indexes[x]], maze = self.maze)
-            __del__()       
+                z = littleHelper(all_moves[indexes[x]], self.maze, self.posr,self.posc)
+            self.__del__()       
         return all_moves[indexes[0]]
 
 
@@ -96,16 +95,16 @@ class littleHelper(pygame.sprite.Sprite):
             return False
     
     def move_right(self):
-        return  Vector2((BLOCK_SIZE,0))
+        return self.pos + Vector2((BLOCK_SIZE,0))
 
     def move_left(self):
-        return  Vector2((-BLOCK_SIZE,0))
+        return self.pos + Vector2((-BLOCK_SIZE,0))
 
     def move_up(self):
-        return  Vector2((0,-BLOCK_SIZE))
+        return self.pos + Vector2((0,-BLOCK_SIZE))
 
     def move_down(self):
-        return  Vector2((0,BLOCK_SIZE))
+        return self.pos + Vector2((0,BLOCK_SIZE))
 
     def checkCollision(self, sprite2):
         col = self.rect.colliderect(sprite2)
