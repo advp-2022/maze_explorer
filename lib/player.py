@@ -57,6 +57,10 @@ class Player(pygame.sprite.Sprite):
     def backtrack(self):
         self.get_available_moves(self.get_neighbors(), True)[0]()
 
+   
+
+
+
     def get_available_moves(self, neighbors_list, visited):
         """ This method will return a list of valid moves given a neighbors list. The valid moves should be where there is a neighboring empty cells (with values 0)
         """
@@ -64,10 +68,13 @@ class Player(pygame.sprite.Sprite):
         if not visited:
             # get the indexes of the empty neighbor cells (values are zeros)
             indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == 0]
+            print(indexes)
         else:
             # get the indexes of the already visited neighbor cells (values are -1)
             indexes = [index for index, neighbor in enumerate(neighbors_list) if neighbor == -1]
         return [all_moves[i] for i in indexes]
+
+   
 
     def get_neighbors(self):
         """
@@ -77,6 +84,10 @@ class Player(pygame.sprite.Sprite):
         c = int(self.pos.x/50) # get the column index (c), PAY ATTENTION that it is equivalent to the x position on the screen
         return [self.maze[r][c+1], self.maze[r][c-1], self.maze[r-1][c], self.maze[r+1][c]]
     
+   
+
+
+
     def move_right(self):
         self.pos = self.pos + Vector2((BLOCK_SIZE,0))
 
@@ -94,6 +105,9 @@ class Player(pygame.sprite.Sprite):
         if col == True:
             print("You Win!")
             sys.exit()
+
+
+
 
 class Target(pygame.sprite.Sprite):
     def __init__(self,pos, maze):
